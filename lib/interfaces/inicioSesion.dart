@@ -36,7 +36,7 @@ class _IniciarSesionState extends State<IniciarSesion> {
       try {
         final UserCredential userCredential =
             await _auth.signInWithEmailAndPassword(
-          email: _emailTextController.text.trim(),
+          email: _emailTextController.text.trim().toLowerCase(),
           password: _contraTextController.text.trim(),
         );
         final User? user = userCredential.user;
@@ -117,7 +117,7 @@ class _IniciarSesionState extends State<IniciarSesion> {
                     _emailTextController,
                     context, [
                   FormBuilderValidators.required(
-                      errorText: 'Para iniicar sesion coloque su correo.'),
+                      errorText: 'Para inicar sesion coloque su correo.'),
                   FormBuilderValidators.email(
                       errorText: 'Ingrese un correo electrónico válido')
                 ]),

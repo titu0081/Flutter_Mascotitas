@@ -78,3 +78,85 @@ Container btnIniciarSesion_Registrarse(
     ),
   );
 }
+
+class MenuInferior extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onItemTapped;
+  final _model = ValueNotifier<double>(0);
+
+  MenuInferior({
+    Key? key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _model,
+      builder: (context, child) {
+        return Positioned(
+          bottom: _model.value,
+          right: 22,
+          left: 22,
+          child: Container(
+            padding: const EdgeInsets.only(left: 12, right: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(blurRadius: 15, color: Colors.black.withOpacity(0.4)),
+              ],
+              borderRadius: BorderRadius.circular(45),
+            ),
+            height: 75,
+            alignment: Alignment.center,
+            child: Material(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.home_rounded,
+                      size: 36,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => onItemTapped(0),
+                    color: selectedIndex == 0 ? Colors.blue : Colors.grey,
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.calendar_today_rounded,
+                      size: 36,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => onItemTapped(1),
+                    color: selectedIndex == 1 ? Colors.blue : Colors.grey,
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.search,
+                      size: 36,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => onItemTapped(2),
+                    color: selectedIndex == 2 ? Colors.blue : Colors.grey,
+                  ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.person,
+                      size: 36,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => onItemTapped(3),
+                    color: selectedIndex == 3 ? Colors.blue : Colors.grey,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

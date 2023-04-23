@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mascotitas/interfaces/inicioSesion.dart';
 import 'package:mascotitas/widgets_Reusables/widgetReusable.dart';
-
 import '../utilidades/colores.dart';
 import 'home.dart';
 
@@ -54,9 +53,9 @@ class RegistrarseState extends State<Registrarse> {
 
       if (newUser.user != null) {
         final userData = {
-          'nombre': _nombreTextController.text.trim(),
-          'apellido': _apellidoTextController.text.trim(),
-          'correo': _emailTextController.text.trim(),
+          'nombre': _nombreTextController.text.trim().toLowerCase(),
+          'apellido': _apellidoTextController.text.trim().toLowerCase(),
+          'correo': _emailTextController.text.trim().toLowerCase(),
           'uid': newUser.user!.uid,
         };
         await _db.collection('usuarios').doc(newUser.user!.uid).set(userData);
