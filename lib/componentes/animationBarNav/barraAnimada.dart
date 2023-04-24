@@ -14,10 +14,10 @@ class BarraAnimada extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       height: 5,
       width: estaActivo ? 24 : 0,
-      margin: const EdgeInsets.only(bottom: 3),
+      margin: const EdgeInsets.fromLTRB(0, 7, 0, 3),
       decoration: const BoxDecoration(
-        color: Color.fromRGBO(255, 176, 73, 1),
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+        color: Color.fromRGBO(255, 145, 0, 1),
+        borderRadius: BorderRadius.all(Radius.circular(18)),
       ),
     );
   }

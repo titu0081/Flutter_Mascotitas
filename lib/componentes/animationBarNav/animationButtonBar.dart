@@ -24,8 +24,8 @@ class _MenuInferior1State extends State<MenuInferior1> {
       margin: const EdgeInsets.only(bottom: 22),
       child: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(12),
-          margin: const EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+          margin: const EdgeInsets.symmetric(horizontal: 30),
           decoration: BoxDecoration(
             color: mFondo,
             borderRadius: const BorderRadius.all(Radius.circular(20)),
@@ -57,7 +57,7 @@ class _MenuInferior1State extends State<MenuInferior1> {
                         width: 36,
                         child: Opacity(
                           opacity:
-                              bottomNavs[index] == seleccionarBoton ? 1 : 0.5,
+                              bottomNavs[index] == seleccionarBoton ? 1 : 0.3,
                           child: RiveAnimation.asset(
                             bottomNavs.first.src,
                             artboard: bottomNavs[index].artboard,

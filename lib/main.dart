@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mascotitas/interfaces/home.dart';
+import 'package:mascotitas/tema.dart';
 import 'interfaces/inicioSesion.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Mascotitas',
-      theme: ThemeData(),
+      theme: TemaAplicacion.lightTheme,
+      darkTheme: TemaAplicacion.darkTheme,
       home: const PaginaPrincipal(),
     );
   }
