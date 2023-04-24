@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mascotitas/interfaces/inicioSesion.dart';
-import '../componentes/animationButtonBar.dart';
+import '../componentes/animationBarNav/animationButtonBar.dart';
 import '../widgets_Reusables/widgetReusable.dart';
 
 class PaginaPrincipal extends StatefulWidget {
