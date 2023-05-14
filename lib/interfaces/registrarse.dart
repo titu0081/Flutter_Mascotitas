@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mascotitas/interfaces/inicioSesion.dart';
 import 'package:mascotitas/widgets_Reusables/widgetReusable.dart';
 import '../utilidades/colores.dart';
-import 'home.dart';
+import 'paginaPrincipal/home.dart';
 
 class Registrarse extends StatefulWidget {
   const Registrarse({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class Registrarse extends StatefulWidget {
 }
 
 class RegistrarseState extends State<Registrarse> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKey2 = GlobalKey<FormState>();
   final _db = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   final TextEditingController _emailTextController = TextEditingController();
@@ -34,7 +35,7 @@ class RegistrarseState extends State<Registrarse> {
     super.dispose();
   }
 
-  void _submitForm() async {
+  void _submitForm(BuildContext context) async {
     try {
       if (_contraTextController.text.trim() !=
           _contraCTextController.text.trim()) {
@@ -56,6 +57,7 @@ class RegistrarseState extends State<Registrarse> {
           'nombre': _nombreTextController.text.trim().toLowerCase(),
           'apellido': _apellidoTextController.text.trim().toLowerCase(),
           'correo': _emailTextController.text.trim().toLowerCase(),
+          'contraseña': _contraTextController.text,
           'uid': newUser.user!.uid,
         };
         await _db.collection('usuarios').doc(newUser.user!.uid).set(userData);
@@ -67,21 +69,33 @@ class RegistrarseState extends State<Registrarse> {
           ),
         );
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Este correo ya se encuentra registrado.')));
-      } else if (e.code == 'weak-password') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text(
-                'La contraseña es demasiado débil. Intente con una contraseña más segura.')));
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content:
-                Text('Ocurrió un error al intentar registrar el usuario.')));
-      }
     } catch (e) {
       print(e);
+      String errorMessage = '';
+
+      if (e is FirebaseAuthException) {
+        switch (e.code) {
+          case 'email-already-in-use':
+            errorMessage = 'Este correo ya se encuentra registrado.';
+            break;
+          case 'weak-password':
+            errorMessage =
+                'La contraseña es demasiado débil. Intente con una contraseña más segura.';
+            break;
+          default:
+            errorMessage = 'Ocurrió un error al intentar registrar el usuario.';
+        }
+      } else if (e is PlatformException) {
+        errorMessage = 'Ocurrió un error: ${e.message}';
+      } else {
+        errorMessage = e.toString();
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+        ),
+      );
     }
   }
 
@@ -111,7 +125,7 @@ class RegistrarseState extends State<Registrarse> {
               padding: EdgeInsets.fromLTRB(
                   20, MediaQuery.of(context).size.height * 0.2, 20, 0),
               child: Column(
-                key: _formKey,
+                key: _formKey2,
                 children: <Widget>[
                   const SizedBox(
                     height: 20,
@@ -198,8 +212,8 @@ class RegistrarseState extends State<Registrarse> {
                   const SizedBox(
                     height: 40,
                   ),
-                  btnIniciarSesion_Registrarse(context, false, () {
-                    _submitForm();
+                  btnIniciarSesionRegistrarse(context, false, () {
+                    _submitForm(context);
                   }),
                   const SizedBox(height: 20),
                   opcionIniciarSesion(),

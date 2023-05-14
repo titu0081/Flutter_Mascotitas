@@ -21,9 +21,7 @@ List<RiveIcons> bottomNavs = [
       stateMachine: "SEARCH_Interactivity",
       title: "Search"),
   RiveIcons("assets/imagenes/riveIcons.riv",
-      artboard: "BELL",
-      stateMachine: "BELL_Interactivity",
-      title: "Notificacion"),
+      artboard: "CHAT", stateMachine: "CHAT_Interactivity", title: "CHAT"),
   RiveIcons("assets/imagenes/riveIcons.riv",
       artboard: "USER", stateMachine: "USER_Interactivity", title: "Usuario"),
 ];

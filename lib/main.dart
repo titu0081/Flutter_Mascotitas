@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mascotitas/interfaces/home.dart';
+import 'package:mascotitas/componentes/animationBarNav/animationButtonBar.dart';
+import 'package:mascotitas/interfaces/paginaPrincipal/home.dart';
 import 'package:mascotitas/tema.dart';
+import 'interfaces/buscar/buscarMascotas.dart';
+import 'interfaces/chat/chatUsuarios.dart';
 import 'interfaces/inicioSesion.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'interfaces/paginaPrincipal/paginaPrincipal.dart';
+import 'interfaces/usuario/usuario.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +23,12 @@ class MyApp extends StatelessWidget {
       title: 'Mascotitas',
       theme: TemaAplicacion.lightTheme,
       darkTheme: TemaAplicacion.darkTheme,
-      home: const PaginaPrincipal(),
+      home: const Home(),
+      routes: {
+        '/buscar': (context) => const BuscarMascotas(),
+        '/chat': (context) => const ChatUsuarios(),
+        '/usuario': (context) => const Usuario(),
+      },
     );
   }
 }

@@ -6,6 +6,11 @@ Image logoWidget(String imagenLogo) {
   return Image.asset(imagenLogo, fit: BoxFit.fitWidth, width: 240, height: 240);
 }
 
+Image imagenesMascotas(String imagenLogo) {
+  return Image.asset(imagenLogo,
+      fit: BoxFit.fitHeight, width: 180, height: 180);
+}
+
 final ScrollController _scrollController = ScrollController();
 
 FormBuilderTextField reusableTextField(
@@ -50,7 +55,7 @@ FormBuilderTextField reusableTextField(
   );
 }
 
-Container btnIniciarSesion_Registrarse(
+Container btnIniciarSesionRegistrarse(
     BuildContext context, bool isLogin, Function onTap) {
   return Container(
     width: 200,
@@ -74,6 +79,63 @@ Container btnIniciarSesion_Registrarse(
         isLogin ? 'Iniciar Sesión' : 'Registrarse',
         style: const TextStyle(
             color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),
+      ),
+    ),
+  );
+}
+
+Container btnAdoptar(BuildContext context, Function onTap) {
+  return Container(
+    width: 125,
+    height: 50,
+    margin: const EdgeInsets.symmetric(vertical: 10),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(90)),
+    child: ElevatedButton(
+      onPressed: () {
+        onTap();
+      },
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.pressed)) {
+            return Colors.orangeAccent;
+          }
+          if (states.contains(MaterialState.hovered)) {
+            return Colors.orangeAccent;
+          }
+          return Colors.white;
+        }),
+        foregroundColor: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.hovered)) {
+            return Colors.white;
+          }
+          return Colors.orangeAccent;
+        }),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            "Más",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          SizedBox(height: 3),
+          Text(
+            "Información",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+            ),
+          ),
+        ],
       ),
     ),
   );
