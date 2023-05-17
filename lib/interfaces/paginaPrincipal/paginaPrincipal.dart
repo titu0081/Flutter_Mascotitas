@@ -8,12 +8,6 @@ import '../buscar/buscarMascotas.dart';
 import '../chat/chatUsuarios.dart';
 import '../usuario/usuario.dart';
 
-Widget paginaMenu(String nombreP) {
-  return Container(
-      alignment: Alignment.center,
-      child: Text(nombreP, style: const TextStyle(fontSize: 28)));
-}
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 

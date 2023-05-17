@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mascotitas/interfaces/paginaPrincipal/home.dart';
+import 'package:mascotitas/interfaces/paginaPrincipal/paginaPrincipal.dart';
 import 'package:mascotitas/interfaces/registrarse.dart';
 import 'package:mascotitas/utilidades/colores.dart';
 import '../componentes/animationBarNav/animationButtonBar.dart';
@@ -69,7 +70,7 @@ class _IniciarSesionState extends State<IniciarSesion> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PaginaPrincipal(),
+                  builder: (context) => const Home(),
                 ),
               );
             } else {

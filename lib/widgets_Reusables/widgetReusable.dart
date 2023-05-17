@@ -222,3 +222,36 @@ class MenuInferior extends StatelessWidget {
     );
   }
 }
+
+ElevatedButton btnConfiguracion(BuildContext context, bool isUserMas,
+    double height, double width, double fontSize, Function onTap) {
+  return ElevatedButton(
+    onPressed: () {
+      onTap();
+    },
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      side: const BorderSide(width: 7, color: Colors.white),
+      elevation: 6,
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Image.asset(
+          isUserMas ? "assets/imagenes/pets2.gif" : "assets/imagenes/user1.gif",
+          fit: BoxFit.contain,
+          height: height, // custom height passed to the button
+          width: width, // custom width passed to the button
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Text(
+            isUserMas ? "Administrar Mascotas" : "Configuracion de Usuario",
+            style: TextStyle(fontSize: fontSize, color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    ),
+  );
+}
