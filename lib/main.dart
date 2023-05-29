@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Mascotitas',
       theme: TemaAplicacion.lightTheme,
       darkTheme: TemaAplicacion.darkTheme,
-      home: const IniciarSesion(),
+      home: const Home(),
       routes: {
         '/buscar': (context) => const BuscarMascotas(),
         '/chat': (context) => const ChatUsuarios(),

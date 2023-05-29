@@ -100,7 +100,7 @@ class _RegistrarMascota extends State<RegistrarMascota> {
         'sexo': selectedOptionsS,
         'tipo': selectedOptionsT,
         'imagen': imageUrl,
-        'descripcion': _descriptionController,
+        'descripcion': _descriptionController.text,
       });
       setState(() {
         cargando = true;
@@ -112,10 +112,13 @@ class _RegistrarMascota extends State<RegistrarMascota> {
         cargando = false;
       });
       // Limpiar los campos de texto
-      _nombreTextController.clear();
-      _razaTextController.clear();
-      _descriptionController.clear();
-      imageUrl = "";
+
+      setState(() {
+        _nombreTextController.text = "";
+        _razaTextController.text = "";
+        _descriptionController.text = "";
+        imageUrl = "";
+      });
       // Deseleccionar opciones de los checkboxes
       setState(() {
         selectedOptionsS = null; // o selectedOptionsS = '';
@@ -192,7 +195,7 @@ class _RegistrarMascota extends State<RegistrarMascota> {
                           height: 20,
                         ),
                         reusableDescriptionField(
-                          'Ingrese la descripción de la mascota',
+                          'Ingrese una descripcion de su mascota',
                           Icons.description,
                           _descriptionController,
                           context,
@@ -202,7 +205,7 @@ class _RegistrarMascota extends State<RegistrarMascota> {
                           ],
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 25,
                         ),
                         ReusableAreasDropdownButton(
                           value: selectAreas,
@@ -211,7 +214,7 @@ class _RegistrarMascota extends State<RegistrarMascota> {
                               selectAreas = newValue!;
                             });
                           },
-                          hintText: 'Selecciona donde se ubica la mascota',
+                          hintText: 'Selecciona la ubicacion de la mascota',
                           items: const [
                             'Norte de Quito',
                             'Sur de Quito',

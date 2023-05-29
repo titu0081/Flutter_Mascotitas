@@ -60,6 +60,49 @@ Widget reusableDescriptionField(
   BuildContext context,
   List<String? Function(String?)>? validators,
 ) {
+  return FormBuilderTextField(
+    controller: controller,
+    maxLines: 3,
+    cursorColor: Colors.black,
+    style: TextStyle(
+      color: Colors.black.withOpacity(0.9),
+      fontSize: 17,
+    ),
+    decoration: InputDecoration(
+      prefixIcon: Icon(prefixIcon, color: Colors.black, size: 30),
+      hintText: labelText,
+      hintStyle: TextStyle(color: Colors.black.withOpacity(0.9)),
+      filled: true,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      fillColor: const Color.fromRGBO(186, 249, 250, 1),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+      ),
+      errorStyle: const TextStyle(fontSize: 17),
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+      ),
+    ),
+    keyboardType: TextInputType.multiline, // Permitir entrada de varias líneas
+    validator: FormBuilderValidators.compose(
+      validators ?? <String? Function(String?)>[],
+    ),
+    autovalidateMode: AutovalidateMode.onUserInteraction,
+    name: '',
+  );
+}
+
+Widget reusableDescriptionField1(
+  String labelText,
+  IconData prefixIcon,
+  TextEditingController controller,
+  BuildContext context,
+  List<String? Function(String?)>? validators,
+) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -449,7 +492,7 @@ class ReusableAreasDropdownButton extends StatelessWidget {
         hint: Center(
           child: Text(
             hintText,
-            style: const TextStyle(color: Colors.black, fontSize: 19),
+            style: const TextStyle(color: Colors.black, fontSize: 17),
           ),
         ),
         dropdownColor: Colors.lightBlue,
