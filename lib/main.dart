@@ -7,6 +7,7 @@ import 'interfaces/chat/chatUsuarios.dart';
 import 'interfaces/inicioSesion.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'interfaces/paginaPrincipal/paginaPrincipal.dart';
+import 'interfaces/usuario/administrarMascotas/registrarMascota.dart';
 import 'interfaces/usuario/usuario.dart';
 
 void main() async {
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: 'Mascotitas',
       theme: TemaAplicacion.lightTheme,
       darkTheme: TemaAplicacion.darkTheme,
-      home: const Home(),
+      home: const IniciarSesion(),
       routes: {
         '/buscar': (context) => const BuscarMascotas(),
         '/chat': (context) => const ChatUsuarios(),

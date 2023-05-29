@@ -3,10 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:mascotitas/interfaces/usuario/administrarMascotas/registrarMascota.dart';
 
 import '../../componentes/animationBarNav/animationButtonBar.dart';
 import '../../utilidades/colores.dart';
 import '../../widgets_Reusables/widgetReusable.dart';
+import 'administrarMascotas/adminMascotas.dart';
 
 class Usuario extends StatefulWidget {
   const Usuario({Key? key}) : super(key: key);
@@ -51,6 +53,13 @@ class _UsuarioState extends State<Usuario> {
       return value;
     }
     return value[0].toUpperCase() + value.substring(1);
+  }
+
+  void abrirMascotas() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const OpcionesMascotas()),
+    );
   }
 
   @override
@@ -119,16 +128,13 @@ class _UsuarioState extends State<Usuario> {
                           ),
                           btnConfiguracion(
                             context,
-                            true,
-                            200,
-                            200,
-                            40,
-                            () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Botón adoptar presionado'),
-                                ),
-                              );
+                            imagePath: "assets/imagenes/pets2.gif",
+                            buttonText: "Administrar Mascotas",
+                            height: 200,
+                            width: 200,
+                            fontSize: 40,
+                            onTap: () {
+                              abrirMascotas();
                             },
                           ),
                           const SizedBox(
@@ -136,11 +142,12 @@ class _UsuarioState extends State<Usuario> {
                           ),
                           btnConfiguracion(
                             context,
-                            false,
-                            200,
-                            200,
-                            40,
-                            () {
+                            imagePath: "assets/imagenes/user1.gif",
+                            buttonText: "Configuracion de Usuario",
+                            height: 200,
+                            width: 200,
+                            fontSize: 40,
+                            onTap: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Botón adoptar presionado'),
@@ -157,40 +164,6 @@ class _UsuarioState extends State<Usuario> {
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AdminButton extends StatelessWidget {
-  const AdminButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {/* add your onPressed functionality here */},
-      style: ElevatedButton.styleFrom(
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-        side: BorderSide(width: 7, color: Colors.white),
-        elevation: 6,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Image.asset(
-            "assets/imagenes/pets2.gif",
-            fit: BoxFit.fitWidth,
-          ),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Text(
-              "Configuracion de Usuario",
-              style: TextStyle(fontSize: 40, color: Colors.black),
-              textAlign: TextAlign.center,
             ),
           ),
         ],

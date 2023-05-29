@@ -11,15 +11,13 @@ Image imagenesMascotas(String imagenLogo) {
       fit: BoxFit.fitHeight, width: 180, height: 180);
 }
 
-final ScrollController _scrollController = ScrollController();
-
 FormBuilderTextField reusableTextField(
   String texto,
   IconData icono,
   bool isPassword,
   TextEditingController controller,
   BuildContext context,
-  List<String? Function(String?)>? validators, // actualización aquí
+  List<String? Function(String?)>? validators,
 ) {
   return FormBuilderTextField(
     controller: controller,
@@ -27,7 +25,7 @@ FormBuilderTextField reusableTextField(
     enableSuggestions: !isPassword,
     autocorrect: !isPassword,
     cursorColor: Colors.black,
-    style: TextStyle(color: Colors.black.withOpacity(0.9), fontSize: 20),
+    style: TextStyle(color: Colors.black.withOpacity(0.9), fontSize: 17),
     decoration: InputDecoration(
       prefixIcon: Icon(icono, color: Colors.black, size: 30),
       labelText: texto,
@@ -39,7 +37,7 @@ FormBuilderTextField reusableTextField(
         borderRadius: BorderRadius.circular(30),
         borderSide: const BorderSide(width: 0, style: BorderStyle.none),
       ),
-      errorStyle: const TextStyle(fontSize: 20),
+      errorStyle: const TextStyle(fontSize: 17),
       errorBorder:
           const OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
       focusedErrorBorder:
@@ -52,6 +50,69 @@ FormBuilderTextField reusableTextField(
     ),
     autovalidateMode: AutovalidateMode.onUserInteraction,
     name: '',
+  );
+}
+
+Widget reusableDescriptionField(
+  String labelText,
+  IconData prefixIcon,
+  TextEditingController controller,
+  BuildContext context,
+  List<String? Function(String?)>? validators,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      FormBuilderTextField(
+        controller: controller,
+        maxLines: 4,
+        cursorColor: Colors.black,
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.9),
+          fontSize: 17,
+        ),
+        decoration: InputDecoration(
+          prefixIcon: Icon(prefixIcon, color: Colors.black, size: 30),
+          hintText: labelText, // Usar labelText como hint text
+          hintStyle: TextStyle(
+            color: Colors.black
+                .withOpacity(0.6), // Color más claro para el hint text
+            fontSize: 17,
+          ),
+          filled: true,
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          fillColor: const Color.fromRGBO(186, 249, 250, 1),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+            borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+          ),
+          errorStyle: const TextStyle(fontSize: 17),
+          errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+          focusedErrorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.red),
+          ),
+        ),
+        keyboardType:
+            TextInputType.multiline, // Permitir entrada de varias líneas
+        validator: FormBuilderValidators.compose(
+          validators ?? <String? Function(String?)>[],
+        ),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        name: '',
+        onChanged:
+            (value) {}, // Necesario para que se actualice la UI al ingresar texto
+      ),
+      SizedBox(height: 8),
+      Text(
+        controller.text,
+        style: TextStyle(
+          color: Colors.black.withOpacity(0.9),
+          fontSize: 17,
+        ),
+      ),
+    ],
   );
 }
 
@@ -113,9 +174,9 @@ Container btnAdoptar(BuildContext context, Function onTap) {
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
       ),
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Text(
             "Más",
             textAlign: TextAlign.center,
@@ -223,8 +284,15 @@ class MenuInferior extends StatelessWidget {
   }
 }
 
-ElevatedButton btnConfiguracion(BuildContext context, bool isUserMas,
-    double height, double width, double fontSize, Function onTap) {
+ElevatedButton btnConfiguracion(
+  BuildContext context, {
+  required String imagePath,
+  required String buttonText,
+  required double height,
+  required double width,
+  required double fontSize,
+  required Function onTap,
+}) {
   return ElevatedButton(
     onPressed: () {
       onTap();
@@ -238,7 +306,7 @@ ElevatedButton btnConfiguracion(BuildContext context, bool isUserMas,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Image.asset(
-          isUserMas ? "assets/imagenes/pets2.gif" : "assets/imagenes/user1.gif",
+          imagePath,
           fit: BoxFit.contain,
           height: height, // custom height passed to the button
           width: width, // custom width passed to the button
@@ -246,7 +314,7 @@ ElevatedButton btnConfiguracion(BuildContext context, bool isUserMas,
         Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            isUserMas ? "Administrar Mascotas" : "Configuracion de Usuario",
+            buttonText,
             style: TextStyle(fontSize: fontSize, color: Colors.white),
             textAlign: TextAlign.center,
           ),
@@ -254,4 +322,197 @@ ElevatedButton btnConfiguracion(BuildContext context, bool isUserMas,
       ],
     ),
   );
+}
+
+ElevatedButton btnOpciones(
+  BuildContext context, {
+  required String imagePath,
+  required String buttonText,
+  required double height,
+  required double width,
+  required double verticalP,
+  required double horizontalP,
+  required double fontSize,
+  required Function onTap,
+}) {
+  return ElevatedButton(
+    onPressed: () {
+      onTap();
+    },
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      side: const BorderSide(width: 7, color: Colors.white),
+      elevation: 6,
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: verticalP, horizontal: horizontalP),
+          child: Image.asset(
+            imagePath,
+            width: width,
+            height: height,
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              buttonText,
+              style: TextStyle(fontSize: fontSize, color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+ElevatedButton btnAddMascota(
+  BuildContext context, {
+  required IconData icon,
+  required double iconSize,
+  required String buttonText,
+  required double height,
+  required double width,
+  required double verticalP,
+  required double horizontalP,
+  required double fontSize,
+  required void Function() onTap,
+}) {
+  return ElevatedButton(
+    onPressed: onTap,
+    style: ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+      side: const BorderSide(width: 7, color: Colors.white),
+      elevation: 6,
+      backgroundColor: Colors.orangeAccent,
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: verticalP, horizontal: horizontalP),
+          child: Icon(
+            icon,
+            size: iconSize,
+            color: Colors.black,
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              buttonText,
+              style: TextStyle(
+                fontSize: fontSize,
+                color: Colors.black,
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+class ReusableAreasDropdownButton extends StatelessWidget {
+  final String? value;
+  final List<String> items;
+  final ValueChanged<String?>? onChanged;
+  final String hintText;
+
+  const ReusableAreasDropdownButton({
+    Key? key,
+    required this.value,
+    required this.items,
+    required this.onChanged,
+    required this.hintText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.lightBlue,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: DropdownButton<String>(
+        value: value,
+        onChanged: onChanged,
+        hint: Center(
+          child: Text(
+            hintText,
+            style: const TextStyle(color: Colors.black, fontSize: 19),
+          ),
+        ),
+        dropdownColor: Colors.lightBlue,
+        icon: const Icon(
+          Icons.arrow_downward,
+          size: 40,
+          color: Colors.black,
+        ),
+        isExpanded: true,
+        items: items.map((area) {
+          return DropdownMenuItem<String>(
+            value: area,
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                area,
+                style: const TextStyle(color: Colors.black, fontSize: 19),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
+class ReusableCheckboxGroup extends StatelessWidget {
+  final List<String> options;
+  final String? selectedOption;
+  final void Function(String?) onChanged;
+
+  ReusableCheckboxGroup({
+    required this.options,
+    required this.selectedOption,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: options.map((option) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Radio<String>(
+                value: option,
+                groupValue: selectedOption,
+                onChanged: onChanged,
+              ),
+              Text(
+                option,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 19.0,
+                ),
+              ),
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
 }

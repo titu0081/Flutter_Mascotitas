@@ -9,6 +9,7 @@ Color recientesF = const Color.fromARGB(255, 10, 136, 145);
 Color iconoS = const Color.fromARGB(197, 8, 128, 18);
 Color modeloC1 = const Color.fromARGB(255, 0, 2, 255);
 Color modeloC2 = const Color.fromARGB(255, 12, 107, 131);
+Color dropD = const Color.fromARGB(213, 0, 162, 255);
 
 hexStringToColor(String hexColor) {
   hexColor = hexColor.toUpperCase().replaceAll("#", "");

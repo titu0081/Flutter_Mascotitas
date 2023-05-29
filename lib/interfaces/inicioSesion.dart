@@ -38,11 +38,31 @@ class _IniciarSesionState extends State<IniciarSesion> {
   void iniciarSesionCorreo() async {
     if (_formKey.currentState!.validate()) {
       if (_emailTextController.text.isEmpty) {
+        setState(() {
+          cargando = true;
+        });
+        await Future.delayed(const Duration(seconds: 5));
+        error.fire();
+        await Future.delayed(const Duration(seconds: 3), () {
+          setState(() {
+            cargando = false;
+          });
+        });
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Por favor, ingrese su correo electrónico.')));
         return;
       }
       if (_contraTextController.text.isEmpty) {
+        setState(() {
+          cargando = true;
+        });
+        await Future.delayed(const Duration(seconds: 5));
+        error.fire();
+        Future.delayed(const Duration(seconds: 3), () {
+          setState(() {
+            cargando = false;
+          });
+        });
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Por favor, verifique su contraseña.')));
         return;
@@ -75,6 +95,10 @@ class _IniciarSesionState extends State<IniciarSesion> {
               );
             } else {
               // Error al iniciar sesión
+              setState(() {
+                cargando = true;
+              });
+              await Future.delayed(const Duration(seconds: 5));
               error.fire();
               Future.delayed(const Duration(seconds: 3), () {
                 setState(() {
@@ -86,12 +110,42 @@ class _IniciarSesionState extends State<IniciarSesion> {
         );
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
+          setState(() {
+            cargando = true;
+          });
+          await Future.delayed(const Duration(seconds: 5));
+          error.fire();
+          await Future.delayed(const Duration(seconds: 3), () {
+            setState(() {
+              cargando = false;
+            });
+          });
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Este correo no se encuentra registrado.')));
         } else if (e.code == 'wrong-password') {
+          setState(() {
+            cargando = true;
+          });
+          await Future.delayed(const Duration(seconds: 5));
+          error.fire();
+          await Future.delayed(const Duration(seconds: 3), () {
+            setState(() {
+              cargando = false;
+            });
+          });
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('La contraseña es incorrecta.')));
         } else if (e.code == 'invalid-email') {
+          setState(() {
+            cargando = true;
+          });
+          await Future.delayed(const Duration(seconds: 5));
+          error.fire();
+          await Future.delayed(const Duration(seconds: 3), () {
+            setState(() {
+              cargando = false;
+            });
+          });
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Ingrese un correo electrónico válido.')));
         } else if (e.code == 'too-many-requests') {
