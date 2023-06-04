@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mascotitas/componentes/animationBarNav/barraAnimada.dart';
+import 'package:mascotitas/interfaces/paginaPrincipal/paginaPrincipal.dart';
 import 'package:mascotitas/utilidades/colores.dart';
 import 'package:rive/rive.dart';
-
-import '../../interfaces/paginaPrincipal/home.dart';
 import '../../models/riveIcons.dart';
 import '../../utilidades/riveUtils.dart';
 
@@ -24,7 +23,7 @@ class _MenuInferior1State extends State<MenuInferior1> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBody: true,
-      body: const PaginaPrincipal(),
+      body: const Home(),
       bottomNavigationBar: Container(
         margin: const EdgeInsets.only(bottom: 22),
         child: SafeArea(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-
-import '../../../models/mascotasModelo.dart';
+import '../../../models/mascotasModeloFirebase.dart';
 import '../../../widgets_Reusables/widgetReusable.dart';
 
 class MascotasCardR extends StatelessWidget {
@@ -25,10 +23,13 @@ class MascotasCardR extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  mascotasR.title,
-                  style: Theme.of(context).textTheme.titleLarge,
-                  textAlign: TextAlign.center,
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    mascotasR.nombre,
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 const SizedBox(height: 15),
                 Row(

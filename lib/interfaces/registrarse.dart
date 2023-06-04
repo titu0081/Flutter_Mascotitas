@@ -4,9 +4,9 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mascotitas/interfaces/inicioSesion.dart';
+import 'package:mascotitas/interfaces/paginaPrincipal/paginaPrincipal.dart';
 import 'package:mascotitas/widgets_Reusables/widgetReusable.dart';
 import '../utilidades/colores.dart';
-import 'paginaPrincipal/home.dart';
 
 class Registrarse extends StatefulWidget {
   const Registrarse({Key? key}) : super(key: key);
@@ -65,7 +65,7 @@ class RegistrarseState extends State<Registrarse> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const PaginaPrincipal(),
+            builder: (context) => const Home(),
           ),
         );
       }

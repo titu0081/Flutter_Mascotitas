@@ -96,6 +96,48 @@ Widget reusableDescriptionField(
   );
 }
 
+FormBuilderTextField reusableTextFieldE(
+  String initialText,
+  IconData icono,
+  bool isPassword,
+  TextEditingController controller,
+  BuildContext context,
+  List<String? Function(String?)>? validators,
+) {
+  controller.text = initialText; // Set the initial value for the text field
+
+  return FormBuilderTextField(
+    controller: controller,
+    obscureText: isPassword,
+    enableSuggestions: !isPassword,
+    autocorrect: !isPassword,
+    cursorColor: Colors.black,
+    style: TextStyle(color: Colors.black.withOpacity(0.9), fontSize: 17),
+    decoration: InputDecoration(
+      prefixIcon: Icon(icono, color: Colors.black, size: 30),
+      labelStyle: TextStyle(color: Colors.black.withOpacity(0.9)),
+      filled: true,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      fillColor: const Color.fromRGBO(186, 249, 250, 1),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+      ),
+      errorStyle: const TextStyle(fontSize: 17),
+      errorBorder:
+          const OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+      focusedErrorBorder:
+          const OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+    ),
+    keyboardType:
+        isPassword ? TextInputType.visiblePassword : TextInputType.emailAddress,
+    validator: FormBuilderValidators.compose(
+        validators ?? <String? Function(String?)>[]),
+    autovalidateMode: AutovalidateMode.onUserInteraction,
+    name: '',
+  );
+}
+
 Widget reusableDescriptionField1(
   String labelText,
   IconData prefixIcon,
@@ -156,6 +198,50 @@ Widget reusableDescriptionField1(
         ),
       ),
     ],
+  );
+}
+
+Widget reusableDescriptionFieldE(
+    String labelText,
+    IconData prefixIcon,
+    TextEditingController controller,
+    BuildContext context,
+    List<String? Function(String?)>? validators,
+    {required bool readOnly}) {
+  return FormBuilderTextField(
+    controller: controller,
+    maxLines: 3,
+    cursorColor: Colors.black,
+    style: TextStyle(
+      color: Colors.black.withOpacity(0.9),
+      fontSize: 17,
+    ),
+    decoration: InputDecoration(
+      prefixIcon: Icon(prefixIcon, color: Colors.black, size: 30),
+      hintText: labelText,
+      hintStyle: TextStyle(color: Colors.black.withOpacity(0.9)),
+      filled: true,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      fillColor: const Color.fromRGBO(186, 249, 250, 1),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30),
+        borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+      ),
+      errorStyle: const TextStyle(fontSize: 17),
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+      ),
+    ),
+    keyboardType: TextInputType.multiline, // Permitir entrada de varias líneas
+    validator: FormBuilderValidators.compose(
+      validators ?? <String? Function(String?)>[],
+    ),
+    autovalidateMode: AutovalidateMode.onUserInteraction,
+    name: '',
+    readOnly: readOnly, // Permitir edición de los campos
   );
 }
 

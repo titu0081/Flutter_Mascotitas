@@ -8,6 +8,8 @@ class TemaAplicacion {
           fontSize: 45.0, fontWeight: FontWeight.w700, color: Colors.black),
       displayLarge: TextStyle(
           fontSize: 30.0, fontWeight: FontWeight.w500, color: Colors.black),
+      displayMedium: TextStyle(
+          fontSize: 20.0, fontWeight: FontWeight.w500, color: Colors.black),
       titleLarge: TextStyle(
           fontSize: 25.0,
           fontStyle: FontStyle.italic,

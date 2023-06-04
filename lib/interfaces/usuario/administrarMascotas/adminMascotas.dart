@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../utilidades/colores.dart';
 import '../../../widgets_Reusables/widgetReusable.dart';
+import 'modificarMascota.dart';
 import 'registrarMascota.dart';
 
 class OpcionesMascotas extends StatefulWidget {
@@ -72,11 +73,7 @@ class _OpcionesMascotasState extends State<OpcionesMascotas> {
                       horizontalP: 8,
                       fontSize: 25,
                       onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Botón adoptar presionado'),
-                          ),
-                        );
+                        modificarMascotas();
                       },
                     ),
                   ],
@@ -96,6 +93,13 @@ class _OpcionesMascotasState extends State<OpcionesMascotas> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const RegistrarMascota()),
+    );
+  }
+
+  void modificarMascotas() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ModificarMascota()),
     );
   }
 }

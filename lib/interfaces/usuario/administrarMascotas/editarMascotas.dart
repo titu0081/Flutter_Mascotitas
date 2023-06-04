@@ -1,75 +1,58 @@
-import 'dart:io';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mascotitas/utilidades/riveUtils.dart';
-import 'package:rive/rive.dart' as Rive;
-import 'package:image_picker/image_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-
+import 'package:mascotitas/interfaces/usuario/administrarMascotas/modificarMascota.dart';
+import 'package:mascotitas/models/mascotasModeloFirebase.dart';
+import 'package:rive/rive.dart' as rive;
 import '../../../utilidades/colores.dart';
 import '../../../widgets_Reusables/widgetReusable.dart';
-import 'componentes/botonAddImage.dart';
+import 'componentes/botonUpdateImage.dart';
 
-class RegistrarMascota extends StatefulWidget {
-  const RegistrarMascota({super.key});
+class EditarMascotas extends StatefulWidget {
+  const EditarMascotas({Key? key, required this.mascotaId}) : super(key: key);
+
+  final String mascotaId;
 
   @override
-  State<RegistrarMascota> createState() => _RegistrarMascota();
+  State<EditarMascotas> createState() => _EditarMascotas();
 }
 
-class _RegistrarMascota extends State<RegistrarMascota> {
-  final _db = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
-  final TextEditingController _nombreTextController = TextEditingController();
-  final TextEditingController _razaTextController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-
-  final List<String> areas = [
-    'Norte de Quito',
-    'Sur de Quito',
-    'Centro de Quito'
-  ];
-  String? selectAreas;
-  String? selectedOptionsS;
-  String? selectedOptionsT;
-
-  late Rive.SMITrigger check;
-  late Rive.SMITrigger error;
-  late Rive.SMITrigger reset;
+class _EditarMascotas extends State<EditarMascotas> {
+  late MascotitasM mascota;
+  final TextEditingController nombreTextController = TextEditingController();
+  final TextEditingController razaTextController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  late rive.SMITrigger check;
+  late rive.SMITrigger error;
+  late rive.SMITrigger reset;
   bool cargando = false;
 
-  Rive.StateMachineController getRiveValidator(Rive.Artboard artboard) {
-    Rive.StateMachineController? controller =
-        Rive.StateMachineController.fromArtboard(artboard, "State Machine 1");
+  rive.StateMachineController getRiveValidator(rive.Artboard artboard) {
+    rive.StateMachineController? controller =
+        rive.StateMachineController.fromArtboard(artboard, "State Machine 1");
     artboard.addController(controller!);
     return controller;
   }
 
-  String imageUrl = "";
-
-  void handleImageSaved(String url) {
-    // Hacer algo con la URL de la imagen guardada, como guardarla en una variable o utilizarla en otra función
+  Future<void> _getMascota(String mascotaId) async {
+    final mascota1 = await MascotitasM.getMascotaID(mascotaId);
     setState(() {
-      imageUrl = url;
+      mascota = mascota1;
     });
   }
 
-// Function to add a pet image from the device's gallery
+  String imageUrl1 = "";
 
-  void addMascota() async {
-    // Obtener el ID del usuario loggeado
-    final user = _auth.currentUser;
-    if (_nombreTextController.text.isEmpty ||
-        _razaTextController.text.isEmpty ||
-        selectAreas == null ||
-        selectedOptionsS == null ||
-        selectedOptionsT == null) {
+  void _guardarImagen(String url) {
+    setState(() {
+      imageUrl1 = url;
+    });
+  }
+
+  void updateMascota() async {
+    if (nombreTextController.text.isEmpty ||
+        razaTextController.text.isEmpty ||
+        descriptionController.text.isEmpty) {
       setState(() {
         cargando = true;
       });
@@ -79,29 +62,20 @@ class _RegistrarMascota extends State<RegistrarMascota> {
       setState(() {
         cargando = false;
       });
-      // Deseleccionar opciones de los checkboxes
+    } else {
       setState(() {
-        selectedOptionsS = null; // o selectedOptionsS = '';
-        selectedOptionsT = null; // o selectedOptionsT = '';
+        mascota.nombre = nombreTextController.text;
+        mascota.raza = razaTextController.text;
+        mascota.descripcion = descriptionController.text;
       });
-    } else if (user != null) {
-      final userId = user.uid;
-      // Generar un nuevo ID para la mascota
-      final mascotaId = _db.collection('mascotas').doc().id;
-      //Recuperamos la imagen guardada anteriormente
-
-      // Crear el documento de la mascota con los datos
-      await _db.collection('mascotas').doc(mascotaId).set({
-        'area': selectAreas,
-        'dueno': userId,
-        'estado': 'nueva',
-        'id': mascotaId,
-        'nombre': _nombreTextController.text,
-        'raza': _razaTextController.text,
-        'sexo': selectedOptionsS,
-        'tipo': selectedOptionsT,
-        'imagen': imageUrl,
-        'descripcion': _descriptionController.text,
+      await FirebaseFirestore.instance
+          .collection('mascotas')
+          .doc(mascota.id)
+          .update({
+        'nombre': mascota.nombre,
+        'raza': mascota.raza,
+        'descripcion': mascota.descripcion,
+        'imagen': imageUrl1,
       });
       setState(() {
         cargando = true;
@@ -115,14 +89,14 @@ class _RegistrarMascota extends State<RegistrarMascota> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Mascota agregada correctamente'),
+          content: Text('Mascota actualizada correctamente'),
         ),
       );
       // Limpiar los campos de texto
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const RegistrarMascota(),
+          builder: (context) => const ModificarMascota(),
         ),
       );
     }
@@ -130,13 +104,14 @@ class _RegistrarMascota extends State<RegistrarMascota> {
 
   @override
   Widget build(BuildContext context) {
+    _getMascota(widget.mascotaId);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
-          "Añadir mascota",
+          "Actualiza tú mascota",
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
       ),
@@ -162,15 +137,18 @@ class _RegistrarMascota extends State<RegistrarMascota> {
                   children: <Widget>[
                     Column(
                       children: [
-                        AddImagen(onImageSaved: handleImageSaved),
+                        UpdateImage(
+                          imageUrl: mascota.imagen,
+                          onImageSaved: _guardarImagen,
+                        ),
                         const SizedBox(
-                          height: 30,
+                          height: 25,
                         ),
                         reusableTextField(
-                          "Ingrese el nombre de la mascota",
+                          mascota.nombre,
                           Icons.pets,
                           false,
-                          _nombreTextController,
+                          nombreTextController,
                           context,
                           [
                             FormBuilderValidators.required(
@@ -181,10 +159,10 @@ class _RegistrarMascota extends State<RegistrarMascota> {
                           height: 20,
                         ),
                         reusableTextField(
-                          "Ingrese la raza de su mascota",
+                          mascota.raza,
                           Icons.pets_outlined,
                           false,
-                          _razaTextController,
+                          razaTextController,
                           context,
                           [
                             FormBuilderValidators.required(
@@ -195,9 +173,9 @@ class _RegistrarMascota extends State<RegistrarMascota> {
                           height: 20,
                         ),
                         reusableDescriptionField(
-                          'Ingrese una descripcion de su mascota',
+                          mascota.descripcion,
                           Icons.description,
-                          _descriptionController,
+                          descriptionController,
                           context,
                           [
                             FormBuilderValidators.required(
@@ -207,65 +185,18 @@ class _RegistrarMascota extends State<RegistrarMascota> {
                         const SizedBox(
                           height: 25,
                         ),
-                        ReusableAreasDropdownButton(
-                          value: selectAreas,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectAreas = newValue!;
-                            });
-                          },
-                          hintText: 'Selecciona la ubicacion de la mascota',
-                          items: const [
-                            'Norte de Quito',
-                            'Sur de Quito',
-                            'Centro de Quito',
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        const TextSeleccion(
-                          texto: 'Seleccione el sexo de su mascota',
-                        ),
-                        ReusableCheckboxGroup(
-                          options: const ['Macho', 'Hembra'],
-                          selectedOption: selectedOptionsS,
-                          onChanged: (String? newSelectedOptionS) {
-                            setState(() {
-                              selectedOptionsS = newSelectedOptionS;
-                            });
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const TextSeleccion(
-                          texto: 'Seleccione el tipo de mascota',
-                        ),
-                        ReusableCheckboxGroup(
-                          options: const ['Perro', 'Gato'],
-                          selectedOption: selectedOptionsT,
-                          onChanged: (String? newSelectedOptionT) {
-                            setState(() {
-                              selectedOptionsT = newSelectedOptionT;
-                            });
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
                         btnAddMascota(
                           context,
                           icon: Icons.add,
                           iconSize: 30,
-                          buttonText: 'Añadir Mascota',
+                          buttonText: 'Actualizar Mascota',
                           height: 50,
                           width: 200,
                           verticalP: 10,
                           horizontalP: 10,
                           fontSize: 20,
                           onTap: () {
-                            addMascota();
+                            updateMascota();
                           },
                         ),
                       ],
@@ -280,14 +211,14 @@ class _RegistrarMascota extends State<RegistrarMascota> {
             cargando
                 ? PosicionValidacion(
                     size: 300,
-                    child: Rive.RiveAnimation.asset(
+                    child: rive.RiveAnimation.asset(
                       "assets/imagenes/riveValidator.riv",
                       onInit: (artboard) {
-                        Rive.StateMachineController controller =
+                        rive.StateMachineController controller =
                             getRiveValidator(artboard);
-                        check = controller.findSMI("Check") as Rive.SMITrigger;
-                        error = controller.findSMI("Error") as Rive.SMITrigger;
-                        reset = controller.findSMI("Reset") as Rive.SMITrigger;
+                        check = controller.findSMI("Check") as rive.SMITrigger;
+                        error = controller.findSMI("Error") as rive.SMITrigger;
+                        reset = controller.findSMI("Reset") as rive.SMITrigger;
                       },
                     ),
                   )

@@ -17,12 +17,10 @@ class _AddImagen extends State<AddImagen> {
   String imageUrl = "";
 
   Future<void> addImagen() async {
-    print("addImagen is called");
     final status = await Permission.storage.request();
     if (status.isGranted) {
       final pickedImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
-      print('${pickedImage?.path}');
 
       if (pickedImage != null) {
         final petImage = File(pickedImage.path);
@@ -33,12 +31,10 @@ class _AddImagen extends State<AddImagen> {
             .child('mascotasImagenes')
             .child(fileName);
         final petImageTask = petImageStorageRef.putFile(petImage);
-
         final downloadUrl = await (await petImageTask).ref.getDownloadURL();
         imageUrl = downloadUrl;
         widget.onImageSaved(downloadUrl); // Llama a la función onImageSaved
         setState(() {});
-        // Forces a rebuild of the widget tree
       }
     }
   }
@@ -54,22 +50,29 @@ class _AddImagen extends State<AddImagen> {
           side: const BorderSide(width: 7, color: Colors.white),
         ),
       ),
-      child: IntrinsicWidth(
+      child: SizedBox(
+        width: 300,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: imageUrl.isEmpty
-                  ? Image.asset(
-                      "assets/imagenes/selectI.png",
-                      width: 250,
-                      height: 250,
-                    )
-                  : Image.network(
-                      imageUrl,
-                      width: 250,
-                      height: 250,
-                    ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30), // Borde redondeado
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: imageUrl.isEmpty
+                    ? Image.asset(
+                        "assets/imagenes/selectI.png",
+                        width: 300,
+                        height: 300,
+                      )
+                    : Image.network(
+                        imageUrl,
+                        width: 300,
+                        height: 300,
+                        fit: BoxFit.cover, // Ajusta la imagen al contenedor
+                      ),
+              ),
             ),
             imageUrl.isEmpty
                 ? Align(
