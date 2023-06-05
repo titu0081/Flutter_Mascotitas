@@ -277,24 +277,30 @@ class _IniciarSesionState extends State<IniciarSesion> {
 }
 
 class PosicionValidacion extends StatelessWidget {
-  const PosicionValidacion(
-      {super.key, required this.child, required this.size});
+  const PosicionValidacion({
+    Key? key,
+    required this.child,
+    required this.size,
+  }) : super(key: key);
 
   final Widget child;
   final double size;
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Row(
-        children: [
-          const SizedBox(width: 55),
-          SizedBox(
-            height: size,
-            width: size,
-            child: child,
-          ),
-        ],
+    return Center(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: size,
+              width: size,
+              child: child,
+            ),
+          ],
+        ),
       ),
     );
   }

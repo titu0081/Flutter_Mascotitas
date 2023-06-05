@@ -9,6 +9,7 @@ import '../../componentes/animationBarNav/animationButtonBar.dart';
 import '../../utilidades/colores.dart';
 import '../../widgets_Reusables/widgetReusable.dart';
 import 'administrarMascotas/adminMascotas.dart';
+import 'configUsuarios/usuarioConfig.dart';
 
 class Usuario extends StatefulWidget {
   const Usuario({Key? key}) : super(key: key);
@@ -59,6 +60,13 @@ class _UsuarioState extends State<Usuario> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const OpcionesMascotas()),
+    );
+  }
+
+  void abrirUsers() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const UsuarioConfig()),
     );
   }
 
@@ -148,11 +156,7 @@ class _UsuarioState extends State<Usuario> {
                             width: 200,
                             fontSize: 40,
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Botón adoptar presionado'),
-                                ),
-                              );
+                              abrirUsers();
                             },
                           ),
                         ],

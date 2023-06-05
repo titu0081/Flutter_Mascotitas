@@ -264,6 +264,7 @@ class _RegistrarMascota extends State<RegistrarMascota> {
                           verticalP: 10,
                           horizontalP: 10,
                           fontSize: 20,
+                          border: Colors.white,
                           onTap: () {
                             addMascota();
                           },

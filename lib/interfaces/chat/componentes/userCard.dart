@@ -37,16 +37,19 @@ class UserCard extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-          const SizedBox(width: 50),
+          const SizedBox(width: 20),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  fullName,
-                  style: Theme.of(context).textTheme.displayMedium,
-                  textAlign: TextAlign.center,
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    fullName,
+                    style: Theme.of(context).textTheme.displayMedium,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 const SizedBox(height: 15),
                 InkWell(
@@ -58,18 +61,18 @@ class UserCard extends StatelessWidget {
                       border: Border.all(color: Colors.white, width: 2),
                     ),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
+                      horizontal: 10,
                       vertical: 10,
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.chat,
                           color: Colors.white,
                         ),
-                        const SizedBox(width: 10),
-                        const Text(
+                        SizedBox(width: 10),
+                        Text(
                           'Iniciar Chat',
                           style: TextStyle(color: Colors.black),
                         ),

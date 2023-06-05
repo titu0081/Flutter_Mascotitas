@@ -510,13 +510,14 @@ ElevatedButton btnAddMascota(
   required double verticalP,
   required double horizontalP,
   required double fontSize,
+  required Color border,
   required void Function() onTap,
 }) {
   return ElevatedButton(
     onPressed: onTap,
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-      side: const BorderSide(width: 7, color: Colors.white),
+      side: BorderSide(width: 7, color: border),
       elevation: 6,
       backgroundColor: Colors.orangeAccent,
     ),

@@ -167,12 +167,6 @@ class _ChatUsuariosState extends State<ChatUsuarios> {
                                         ),
                                       );
                                     }
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text('Iniciar Chat presionado'),
-                                      ),
-                                    );
                                   },
                                 ),
                               );

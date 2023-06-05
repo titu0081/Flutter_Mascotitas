@@ -1,143 +1,101 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:mascotitas/interfaces/buscar/componentes/cardMascostasBuscar.dart';
 import 'package:mascotitas/interfaces/paginaPrincipal/detalleMascota.dart';
+import 'package:mascotitas/models/mascotasM.dart';
 import 'package:mascotitas/models/mascotasModeloFirebase.dart';
+import '../../utilidades/colores.dart';
+import 'package:flutter/material.dart';
 
-class BuscarMascota extends StatefulWidget {
-  const BuscarMascota({Key? key}) : super(key: key);
+class BuscarMascotas extends StatefulWidget {
+  const BuscarMascotas({Key? key}) : super(key: key);
 
   @override
-  State<BuscarMascota> createState() => _BuscarMascotaState();
+  State<BuscarMascotas> createState() => _BuscarMascotasState();
 }
 
-class _BuscarMascotaState extends State<BuscarMascota> {
-  TextEditingController _searchController = TextEditingController();
-  List<MascotitasM> _searchResults = [];
+class _BuscarMascotasState extends State<BuscarMascotas> {
+  String query = '';
+  Future<List<MascotitasM>> resultados = Future.value([]);
 
-  void _performSearch(String query) {
-    searchMascotas(query);
+  void buscarMascotas() {
+    setState(() {
+      resultados = MascotitasM.buscarMascotasSinDueno(query);
+    });
   }
 
-  Future<void> searchMascotas(String query) async {
-    List<MascotitasM> results = await MascotitasM.buscarMascotas(query);
-    if (mounted) {
-      setState(() {
-        _searchResults = results;
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
+  void abrirMascota(String id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DetalleMascota(idMascota: id),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          margin: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: Offset(0, 3),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              hexStringToColor("#1575b3"),
+              hexStringToColor("#00ffef"),
+              hexStringToColor("#37d0d1"),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 50, 20, 15),
+                child: Stack(
+                  alignment: Alignment.centerRight,
+                  children: [
+                    TextField(
+                      onChanged: (text) {
+                        setState(() {
+                          query = text;
+                        });
+                      },
+                      style: const TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        hintText: 'Buscar Mascotas',
+                        hintStyle: const TextStyle(color: Colors.black),
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: buscarMascotas,
+                      icon: const Icon(Icons.search),
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
+              ),
+              CardBuscarMascota(
+                resultados: resultados,
+                onTap: (mascota) {
+                  abrirMascota(mascota.id);
+                },
               ),
             ],
           ),
-          child: TextField(
-            controller: _searchController,
-            onChanged: _performSearch,
-            decoration: InputDecoration(
-              hintText: 'Buscar mascotas',
-              border: InputBorder.none,
-              prefixIcon: Icon(
-                Icons.search,
-                color: Colors.grey,
-              ),
-            ),
-          ),
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: _searchResults.length,
-            itemBuilder: (context, index) {
-              final mascota = _searchResults[index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          DetalleMascota(idMascota: mascota.id),
-                    ),
-                  );
-                },
-                child: Card(
-                  elevation: 4,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12),
-                        ),
-                        child: Image.network(
-                          mascota.imagen,
-                          fit: BoxFit.cover,
-                          height: 200,
-                          width: double.infinity,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              mascota.nombre,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              mascota.raza,
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              mascota.area,
-                              style: TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

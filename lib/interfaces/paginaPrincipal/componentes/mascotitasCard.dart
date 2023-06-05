@@ -49,8 +49,8 @@ class _MascotitasCard1State extends State<MascotitasCard1> {
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                     child: SizedBox(
-                      height: 180,
-                      width: 180,
+                      height: 210,
+                      width: 210,
                       child: Image.network(
                         widget.mascotas.imagen,
                         fit: BoxFit.fill,

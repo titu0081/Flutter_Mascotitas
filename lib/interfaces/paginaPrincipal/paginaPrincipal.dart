@@ -18,8 +18,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Widget> pantallas = [
-    const NavegacionVistas(),
-    const BuscarMascota(),
+    NavegacionVistas(),
+    const BuscarMascotas(),
     const ChatUsuarios(),
     const Usuario(),
   ];

@@ -25,6 +25,7 @@ class MascotitasM {
   static List<MascotitasM> mascotasDueno = [];
   static List<MascotitasM> mascotasId = [];
   static List<MascotitasM> mascotasSinDueno = [];
+  static List<MascotitasM> resultados = [];
 
   static Future<void> getMascotas() async {
     final QuerySnapshot<Map<String, dynamic>> mascotasSnapshot =
@@ -126,20 +127,19 @@ class MascotitasM {
     }).toList();
   }
 
-  static List<MascotitasM> buscarMascotas(String query) {
-    final List<MascotitasM> resultados = [];
-
-    // Convertir la consulta y los nombres de las mascotas a minúsculas para una búsqueda insensible a mayúsculas
-    final String consulta = query.toLowerCase();
-
-    for (final mascota in mascotas) {
-      final String nombreMascota = mascota.nombre.toLowerCase();
-
-      // Verificar si el nombre de la mascota contiene la consulta
-      if (nombreMascota.contains(consulta)) {
-        resultados.add(mascota);
-      }
-    }
+  static Future<List<MascotitasM>> buscarMascotasSinDueno(
+      String palabrasClave) async {
+    List<MascotitasM> resultados = mascotasSinDueno
+        .where((mascota) =>
+            mascota.nombre
+                .toLowerCase()
+                .contains(palabrasClave.toLowerCase()) ||
+            mascota.descripcion
+                .toLowerCase()
+                .contains(palabrasClave.toLowerCase()) ||
+            mascota.raza.toLowerCase().contains(palabrasClave.toLowerCase()) ||
+            mascota.tipo.toLowerCase().contains(palabrasClave.toLowerCase()))
+        .toList();
 
     return resultados;
   }

@@ -1,18 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mascotitas/interfaces/paginaPrincipal/detalleMascota.dart';
-import '../../interfaces/paginaPrincipal/componentes/mascotasCard.dart';
-import '../../interfaces/paginaPrincipal/componentes/mascotasCard2.dart';
 import '../../interfaces/paginaPrincipal/componentes/mascotitasCard.dart';
 import '../../interfaces/paginaPrincipal/componentes/mascotitasCardV.dart';
 import '../../models/mascotasModeloFirebase.dart';
-import '../../tema.dart';
 import '../../utilidades/colores.dart';
 
 class NavegacionVistas extends StatefulWidget {
-  const NavegacionVistas({Key? key});
+  NavegacionVistas({Key? key});
 
   @override
   State<NavegacionVistas> createState() => _NavegacionVistasState();
@@ -77,9 +73,9 @@ class _NavegacionVistasState extends State<NavegacionVistas> {
               future: _mascotasFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
-                  return Text('Error al cargar las mascotas');
+                  return const Text('Error al cargar las mascotas');
                 } else {
                   final mascotas1 = snapshot.data!;
                   return SingleChildScrollView(
@@ -132,7 +128,12 @@ class _NavegacionVistasState extends State<NavegacionVistas> {
                               right: 15,
                               bottom: 20,
                             ),
-                            child: MascotasCardR(mascotasR: mascota),
+                            child: MascotasCardR(
+                              mascotasR: mascota,
+                              onTap: () {
+                                abrirMascota(mascota.id);
+                              },
+                            ),
                           ),
                         )
                         .toList(),

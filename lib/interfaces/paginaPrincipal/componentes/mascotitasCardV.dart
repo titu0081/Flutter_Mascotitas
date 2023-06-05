@@ -1,74 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import '../../../models/mascotasModeloFirebase.dart';
-import '../../../widgets_Reusables/widgetReusable.dart';
 
 class MascotasCardR extends StatelessWidget {
-  const MascotasCardR({super.key, required this.mascotasR});
+  const MascotasCardR({
+    Key? key,
+    required this.mascotasR,
+    required this.onTap,
+  }) : super(key: key);
 
   final MascotitasM mascotasR;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
-      decoration: BoxDecoration(
-        color: mascotasR.color,
-        borderRadius: const BorderRadius.all(Radius.circular(35)),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    mascotasR.nombre,
-                    style: Theme.of(context).textTheme.titleLarge,
-                    textAlign: TextAlign.center,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
+        decoration: BoxDecoration(
+          color: mascotasR.color,
+          borderRadius: const BorderRadius.all(Radius.circular(35)),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(75),
+              child: SizedBox(
+                width: 150,
+                height: 150,
+                child: Image.network(
+                  mascotasR.imagen,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      mascotasR.nombre,
+                      style: Theme.of(context).textTheme.titleLarge,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        mascotasR.area,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        mascotasR.sexo,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                  const SizedBox(height: 15),
+                  Text(
+                    mascotasR.area,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    mascotasR.sexo,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 15),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            child: VerticalDivider(
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(width: 10),
-          MouseRegion(
-            child: btnAdoptar(context, () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Botón adoptar presionado'),
-                ),
-              );
-            }),
-          ),
-        ],
+            const SizedBox(width: 10),
+          ],
+        ),
       ),
     );
   }

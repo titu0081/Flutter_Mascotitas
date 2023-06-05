@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mascotitas/componentes/animationBarNav/animationButtonBar.dart';
 import 'package:mascotitas/tema.dart';
 import 'interfaces/buscar/buscarMascotas.dart';
 import 'interfaces/chat/chatUsuarios.dart';
@@ -25,7 +24,7 @@ class MyApp extends StatelessWidget {
       darkTheme: TemaAplicacion.darkTheme,
       home: const IniciarSesion(),
       routes: {
-        '/buscar': (context) => const BuscarMascota(),
+        '/buscar': (context) => const BuscarMascotas(),
         '/chat': (context) => const ChatUsuarios(),
         '/usuario': (context) => const Usuario(),
       },

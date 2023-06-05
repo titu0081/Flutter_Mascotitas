@@ -20,12 +20,14 @@ class _DetalleMascotaState extends State<DetalleMascota> {
   late MascotitasM mascota;
   final db = FirebaseFirestore.instance;
   final auth = FirebaseAuth.instance;
+  bool isLoading = true;
 
   Future<void> _getMascota(String mascotaId) async {
     try {
       final mascota1 = await MascotitasM.getMascotaID(mascotaId);
       setState(() {
         mascota = mascota1;
+        isLoading = false;
       });
     } catch (error) {
       // Manejar el error aquí, por ejemplo, mostrando un mensaje de error al usuario
@@ -48,7 +50,7 @@ class _DetalleMascotaState extends State<DetalleMascota> {
           .doc(mid)
           .update({'estado': "procesado"}).then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Mascota adoptada correctamente'),
           ),
         );
@@ -64,7 +66,7 @@ class _DetalleMascotaState extends State<DetalleMascota> {
         );
       }).catchError((error) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Error, la mascota no pudo ser adoptada'),
           ),
         );
@@ -74,6 +76,13 @@ class _DetalleMascotaState extends State<DetalleMascota> {
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -102,94 +111,102 @@ class _DetalleMascotaState extends State<DetalleMascota> {
           children: <Widget>[
             SizedBox(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.45,
               child: Image.network(
                 mascota.imagen,
                 fit: BoxFit.cover,
               ),
             ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
+            Positioned.fill(
+              top: MediaQuery.of(context).size.height * 0.4 - 10,
               child: Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(45),
+                    topRight: Radius.circular(45),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        mascota.nombre,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headlineLarge,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            mascota.nombre,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        "Raza: ${mascota.raza}",
-                        style: Theme.of(context).textTheme.displayMedium,
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "Raza: ${mascota.raza}",
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        "Área: ${mascota.area}",
-                        style: Theme.of(context).textTheme.displayMedium,
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "Área: ${mascota.area}",
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        "Tipo: ${mascota.tipo}",
-                        style: Theme.of(context).textTheme.displayMedium,
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "Tipo: ${mascota.tipo}",
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        "Sexo: ${mascota.sexo}",
-                        style: Theme.of(context).textTheme.displayMedium,
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "Sexo: ${mascota.sexo}",
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        "Descripción: ${mascota.descripcion}",
-                        style: Theme.of(context).textTheme.displayMedium,
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "Descripción: ${mascota.descripcion}",
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                      child: btnAddMascota(
-                        context,
-                        icon: Icons.add,
-                        iconSize: 30,
-                        buttonText: 'Adoptar Mascota',
-                        height: 50,
-                        width: 200,
-                        verticalP: 10,
-                        horizontalP: 10,
-                        fontSize: 20,
-                        onTap: () {
-                          adoptarMascota(mascota.id);
-                        },
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+                        child: btnAddMascota(
+                          context,
+                          icon: Icons.add,
+                          iconSize: 30,
+                          buttonText: 'Adoptar Mascota',
+                          height: 50,
+                          width: 200,
+                          verticalP: 10,
+                          horizontalP: 10,
+                          fontSize: 20,
+                          border: Colors.black,
+                          onTap: () {
+                            adoptarMascota(mascota.id);
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                      SizedBox(
+                          height: MediaQuery.of(context)
+                              .viewInsets
+                              .bottom), // Asegura que el contenido esté visible al abrir el teclado
+                    ],
+                  ),
                 ),
               ),
             ),
