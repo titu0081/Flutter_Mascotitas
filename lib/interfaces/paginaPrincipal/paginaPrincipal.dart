@@ -1,8 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-
 import '../../componentes/animationBarNav/navegacion.dart';
 import '../../componentes/animationBarNav/navegacionVistas.dart';
 import '../buscar/buscarMascotas.dart';

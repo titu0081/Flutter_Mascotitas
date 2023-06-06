@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mascotitas/interfaces/usuario/administrarMascotas/modificarMascota.dart';
+import 'package:mascotitas/interfaces/inicioSesion.dart';
+import 'package:mascotitas/interfaces/usuario/configUsuarios/cambiarContrase%C3%B1a.dart';
 import 'package:mascotitas/interfaces/usuario/usuario.dart';
 import 'package:mascotitas/utilidades/colores.dart';
 import 'package:mascotitas/widgets_Reusables/widgetReusable.dart';
@@ -141,6 +142,25 @@ class _UsuarioConfigState extends State<UsuarioConfig> {
     }
   }
 
+  void openContra() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CambiarContrasena(),
+      ),
+    );
+  }
+
+  void loggout() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const IniciarSesion(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,6 +172,47 @@ class _UsuarioConfigState extends State<UsuarioConfig> {
           "Usuario",
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: TextButton.icon(
+              onPressed: () {
+                loggout();
+              },
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.black,
+              ),
+              label: Text(
+                "Cerrar Sesión",
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      color: Colors.black.withOpacity(0.3),
+                      offset: Offset(2, 2),
+                      blurRadius: 3,
+                    ),
+                  ],
+                ),
+              ),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.red),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(
+                      color: Colors.white,
+                      width: 2,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -249,6 +310,24 @@ class _UsuarioConfigState extends State<UsuarioConfig> {
                             border: Colors.white,
                             onTap: () {
                               updateUser();
+                            },
+                          ),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          btnAddMascota(
+                            context,
+                            icon: Icons.change_circle,
+                            iconSize: 30,
+                            buttonText: 'Actualizar contraseña',
+                            height: 50,
+                            width: 200,
+                            verticalP: 10,
+                            horizontalP: 10,
+                            fontSize: 20,
+                            border: Colors.white,
+                            onTap: () {
+                              openContra();
                             },
                           ),
                         ],

@@ -12,8 +12,11 @@ import 'package:mascotitas/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    final Widget initialScreen =
+        Container(); // Puedes usar cualquier widget aquí
+
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(MyApp(initialScreen: initialScreen));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

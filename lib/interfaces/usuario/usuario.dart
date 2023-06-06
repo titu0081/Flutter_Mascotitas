@@ -2,10 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:mascotitas/interfaces/usuario/administrarMascotas/registrarMascota.dart';
 
-import '../../componentes/animationBarNav/animationButtonBar.dart';
 import '../../utilidades/colores.dart';
 import '../../widgets_Reusables/widgetReusable.dart';
 import 'administrarMascotas/adminMascotas.dart';

@@ -138,7 +138,8 @@ class MascotitasM {
                 .toLowerCase()
                 .contains(palabrasClave.toLowerCase()) ||
             mascota.raza.toLowerCase().contains(palabrasClave.toLowerCase()) ||
-            mascota.tipo.toLowerCase().contains(palabrasClave.toLowerCase()))
+            mascota.tipo.toLowerCase().contains(palabrasClave.toLowerCase()) ||
+            mascota.sexo.toLowerCase().contains(palabrasClave.toLowerCase()))
         .toList();
 
     return resultados;

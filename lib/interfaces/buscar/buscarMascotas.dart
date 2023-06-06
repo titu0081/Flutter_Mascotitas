@@ -34,6 +34,20 @@ class _BuscarMascotasState extends State<BuscarMascotas> {
     );
   }
 
+  void filtrarPorTipo(String tipo) {
+    setState(() {
+      query = tipo;
+      buscarMascotas();
+    });
+  }
+
+  void filtrarPorSexo(String sexo) {
+    setState(() {
+      query = sexo;
+      buscarMascotas();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +99,30 @@ class _BuscarMascotasState extends State<BuscarMascotas> {
                     ),
                   ],
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => filtrarPorTipo('perro'),
+                    child: const Text('Perro'),
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () => filtrarPorTipo('gato'),
+                    child: const Text('Gato'),
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () => filtrarPorSexo('macho'),
+                    child: const Text('Macho'),
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () => filtrarPorSexo('hembra'),
+                    child: const Text('Hembra'),
+                  ),
+                ],
               ),
               CardBuscarMascota(
                 resultados: resultados,
