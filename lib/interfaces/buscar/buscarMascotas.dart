@@ -1,12 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mascotitas/interfaces/buscar/componentes/cardMascostasBuscar.dart';
 import 'package:mascotitas/interfaces/paginaPrincipal/detalleMascota.dart';
-import 'package:mascotitas/models/mascotasM.dart';
 import 'package:mascotitas/models/mascotasModeloFirebase.dart';
 import '../../utilidades/colores.dart';
-import 'package:flutter/material.dart';
 
 class BuscarMascotas extends StatefulWidget {
   const BuscarMascotas({Key? key}) : super(key: key);

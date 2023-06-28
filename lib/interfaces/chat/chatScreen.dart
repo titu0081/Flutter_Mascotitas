@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'componentes/mensajes.dart';
-import 'componentes/mensajesB.dart';
-
 class ChatScreen extends StatefulWidget {
   final String userID;
   final String otherUserID;

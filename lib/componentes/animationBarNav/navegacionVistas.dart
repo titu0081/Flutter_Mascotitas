@@ -8,7 +8,7 @@ import '../../models/mascotasModeloFirebase.dart';
 import '../../utilidades/colores.dart';
 
 class NavegacionVistas extends StatefulWidget {
-  NavegacionVistas({Key? key});
+  const NavegacionVistas({super.key});
 
   @override
   State<NavegacionVistas> createState() => _NavegacionVistasState();

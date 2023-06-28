@@ -91,6 +91,9 @@ class _IniciarSesionState extends State<IniciarSesion> {
                   builder: (context) => const Home(),
                 ),
               );
+              setState(() {
+                cargando = false;
+              });
             } else {
               // Error al iniciar sesión
               setState(() {

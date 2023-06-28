@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:mascotitas/models/riveIcons.dart';
 import 'package:rive/rive.dart' as r;
 
 import '../../models/iconosRiveS.dart';

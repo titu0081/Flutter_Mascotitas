@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mascotitas/models/userModeloFirebase.dart';
 
 import '../../../utilidades/colores.dart';
 
@@ -52,31 +51,35 @@ class UserCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-                InkWell(
-                  onTap: onChatPressed,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.orange,
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 10,
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.chat,
-                          color: Colors.white,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'Iniciar Chat',
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ],
+                Align(
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: onChatPressed,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.orange,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 10,
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.chat,
+                            color: Colors.white,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Iniciar Chat',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

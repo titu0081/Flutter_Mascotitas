@@ -2,10 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mascotitas/interfaces/chat/componentes/userCard.dart';
 import 'package:mascotitas/models/chatModeloFirebase.dart';
-import 'package:mascotitas/models/userModeloFirebase.dart';
 import 'package:mascotitas/utilidades/colores.dart';
 
 import 'chatScreen.dart';

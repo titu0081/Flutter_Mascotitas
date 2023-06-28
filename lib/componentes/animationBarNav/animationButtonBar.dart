@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:mascotitas/componentes/animationBarNav/barraAnimada.dart';
 import 'package:mascotitas/interfaces/paginaPrincipal/paginaPrincipal.dart';
 import 'package:mascotitas/utilidades/colores.dart';
