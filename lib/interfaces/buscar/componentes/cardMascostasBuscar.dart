@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mascotitas/models/mascotasModeloFirebase.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+import '../../../widgets_Reusables/widgetReusable.dart';
 
 class CardBuscarMascota extends StatelessWidget {
   const CardBuscarMascota({
@@ -42,11 +45,14 @@ class CardBuscarMascota extends StatelessWidget {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10.0),
-                            child: Image.network(
-                              mascota.imagen,
+                            child: CachedNetworkImage(
+                              imageUrl: mascota.imagen.toString(),
                               width: 150,
                               height: 150,
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => cargandoImagenes(),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
                           ),
                           const SizedBox(width: 10),

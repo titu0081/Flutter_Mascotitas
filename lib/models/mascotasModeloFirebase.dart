@@ -10,7 +10,7 @@ class MascotitasM {
     this.raza = "",
     this.dueno = "",
     this.tipo = "",
-    this.imagen = "",
+    this.imagen,
     this.color = Colors.white,
     this.nombre = "",
     this.area = "",
@@ -18,7 +18,8 @@ class MascotitasM {
   });
 
   String id;
-  String area, descripcion, dueno, estado, imagen, nombre, raza, sexo, tipo;
+  String area, descripcion, dueno, estado, nombre, raza, sexo, tipo;
+  Uri? imagen;
   Color color;
 
   static List<MascotitasM> mascotas = [];
@@ -41,7 +42,7 @@ class MascotitasM {
         nombre: data['nombre'],
         descripcion: data['descripcion'],
         dueno: data['dueno'],
-        imagen: data['imagen'],
+        imagen: Uri.parse(data['imagen']),
         estado: data['estado'],
         raza: data['raza'],
         tipo: data['tipo'],
@@ -67,7 +68,7 @@ class MascotitasM {
         nombre: data['nombre'],
         descripcion: data['descripcion'],
         dueno: data['dueno'],
-        imagen: data['imagen'],
+        imagen: Uri.parse(data['imagen']),
         estado: data['estado'],
         raza: data['raza'],
         tipo: data['tipo'],
@@ -91,7 +92,7 @@ class MascotitasM {
       nombre: data['nombre'],
       descripcion: data['descripcion'],
       dueno: data['dueno'],
-      imagen: data['imagen'],
+      imagen: Uri.parse(data['imagen']),
       estado: data['estado'],
       raza: data['raza'],
       tipo: data['tipo'],
@@ -116,7 +117,7 @@ class MascotitasM {
         nombre: data['nombre'],
         descripcion: data['descripcion'],
         dueno: data['dueno'],
-        imagen: data['imagen'],
+        imagen: Uri.parse(data['imagen']),
         estado: data['estado'],
         raza: data['raza'],
         tipo: data['tipo'],

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mascotitas/interfaces/usuario/administrarMascotas/componentes/cardMascota.dart';
@@ -15,6 +16,7 @@ class ModificarMascota extends StatefulWidget {
 class _ModificarMascotaState extends State<ModificarMascota> {
   late List<MascotitasM> _mascotas = [];
   late User _currentUser;
+  late bool delete1;
 
   @override
   void initState() {
@@ -50,7 +52,65 @@ class _ModificarMascotaState extends State<ModificarMascota> {
     );
   }
 
-  void delete(String mascotaId) {}
+  void delete(String mascotaId) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Confirmación",
+              style: Theme.of(context).textTheme.displayMedium),
+          content: Text("¿Está seguro de eliminar la mascota?",
+              style: Theme.of(context).textTheme.displaySmall),
+          actions: [
+            TextButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                delete1 = true;
+                Navigator.of(context).pop();
+                if (delete1 = true) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("La mascota no fue eliminada"),
+                    ),
+                  );
+                }
+              },
+            ),
+            TextButton(
+              child: const Text("Aceptar"),
+              onPressed: () {
+                _cambiarEstadoMascota(mascotaId);
+                Navigator.of(context).pop();
+                delete1 = false;
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _cambiarEstadoMascota(String mascotaId) async {
+    try {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      DocumentReference mascotaRef =
+          firestore.collection('mascotas').doc(mascotaId);
+
+      await mascotaRef.update({'estado': 'eliminada'});
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Mascota eliminada correctamente"),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("La mascota no fue eliminada"),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +141,7 @@ class _ModificarMascotaState extends State<ModificarMascota> {
               final mascota = _mascotas[index];
               return MascotasCard(
                 nombre: mascota.nombre,
-                imagen: mascota.imagen,
+                imagen: mascota.imagen.toString(),
                 onEditar: () {
                   edit(mascota.id);
                 },

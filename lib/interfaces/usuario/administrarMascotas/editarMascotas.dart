@@ -138,7 +138,7 @@ class _EditarMascotas extends State<EditarMascotas> {
                     Column(
                       children: [
                         UpdateImage(
-                          imageUrl: mascota.imagen,
+                          imageUrl: mascota.imagen.toString(),
                           onImageSaved: _guardarImagen,
                         ),
                         const SizedBox(

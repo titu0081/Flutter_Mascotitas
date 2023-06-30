@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -112,8 +113,10 @@ class _DetalleMascotaState extends State<DetalleMascota> {
             SizedBox(
               width: double.infinity,
               height: MediaQuery.of(context).size.height * 0.45,
-              child: Image.network(
-                mascota.imagen,
+              child: CachedNetworkImage(
+                imageUrl: mascota.imagen.toString(),
+                placeholder: (context, url) => cargandoImagenes(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
                 fit: BoxFit.cover,
               ),
             ),

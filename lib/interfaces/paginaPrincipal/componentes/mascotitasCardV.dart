@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../models/mascotasModeloFirebase.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
+import '../../../widgets_Reusables/widgetReusable.dart';
 
 class MascotasCardR extends StatelessWidget {
   const MascotasCardR({
@@ -28,9 +31,11 @@ class MascotasCardR extends StatelessWidget {
               child: SizedBox(
                 width: 150,
                 height: 150,
-                child: Image.network(
-                  mascotasR.imagen,
+                child: CachedNetworkImage(
+                  imageUrl: mascotasR.imagen.toString(),
                   fit: BoxFit.cover,
+                  placeholder: (context, url) => cargandoImagenes(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
             ),

@@ -1,6 +1,9 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mascotitas/models/mascotasModeloFirebase.dart';
 import "package:flutter/material.dart";
+import 'package:cached_network_image/cached_network_image.dart';
+
+import '../../../widgets_Reusables/widgetReusable.dart';
 
 class MascotitasCard1 extends StatefulWidget {
   const MascotitasCard1({super.key, required this.mascotas, this.onPressed});
@@ -51,9 +54,12 @@ class _MascotitasCard1State extends State<MascotitasCard1> {
                     child: SizedBox(
                       height: 210,
                       width: 210,
-                      child: Image.network(
-                        widget.mascotas.imagen,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.mascotas.imagen.toString(),
                         fit: BoxFit.fill,
+                        placeholder: (context, url) => cargandoImagenes(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                     ),
                   ),

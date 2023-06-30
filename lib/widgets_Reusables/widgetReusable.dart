@@ -646,3 +646,14 @@ class ReusableCheckboxGroup extends StatelessWidget {
     );
   }
 }
+
+Widget cargandoImagenes() {
+  return Container(
+    alignment: Alignment.center,
+    child: const SizedBox(
+      width: 60,
+      height: 60,
+      child: CircularProgressIndicator(),
+    ),
+  );
+}

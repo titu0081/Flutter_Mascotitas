@@ -7,6 +7,7 @@ import 'package:mascotitas/interfaces/inicioSesion.dart';
 import 'package:mascotitas/interfaces/paginaPrincipal/paginaPrincipal.dart';
 import 'package:mascotitas/widgets_Reusables/widgetReusable.dart';
 import '../utilidades/colores.dart';
+import 'package:rive/rive.dart' as Rive;
 
 class Registrarse extends StatefulWidget {
   const Registrarse({Key? key}) : super(key: key);
@@ -24,6 +25,18 @@ class RegistrarseState extends State<Registrarse> {
   final TextEditingController _contraCTextController = TextEditingController();
   final TextEditingController _nombreTextController = TextEditingController();
   final TextEditingController _apellidoTextController = TextEditingController();
+
+  bool cargando = false;
+  late Rive.SMITrigger check;
+  late Rive.SMITrigger error;
+  late Rive.SMITrigger reset;
+
+  Rive.StateMachineController getRiveValidator(Rive.Artboard artboard) {
+    Rive.StateMachineController? controller =
+        Rive.StateMachineController.fromArtboard(artboard, "State Machine 1");
+    artboard.addController(controller!);
+    return controller;
+  }
 
   @override
   void dispose() {
@@ -43,32 +56,56 @@ class RegistrarseState extends State<Registrarse> {
             const SnackBar(content: Text('Las contraseñas no coinciden.')));
         return;
       } else if (_nombreTextController.text.trim() == "" ||
-          _apellidoTextController.text.trim() == "") {
+          _apellidoTextController.text.trim() == "" ||
+          _contraTextController.text.trim() == "" ||
+          _emailTextController.text.trim() == "" ||
+          _contraCTextController.text.trim() == "") {
+        setState(() {
+          cargando = true;
+        });
+        await Future.delayed(const Duration(seconds: 5));
+        error.fire();
+        await Future.delayed(const Duration(seconds: 3), () {
+          setState(() {
+            cargando = false;
+          });
+        });
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Por favor, complete los campos faltantes...')));
         return;
       }
       final newUser = await _auth.createUserWithEmailAndPassword(
-          email: _emailTextController.text.trim(),
+          email: _emailTextController.text.trim().toLowerCase(),
           password: _contraTextController.text.trim());
 
-      if (newUser.user != null) {
-        final userData = {
-          'nombre': _nombreTextController.text.trim().toLowerCase(),
-          'apellido': _apellidoTextController.text.trim().toLowerCase(),
-          'correo': _emailTextController.text.trim().toLowerCase(),
-          'contraseña': _contraTextController.text,
-          'uid': newUser.user!.uid,
-        };
-        await _db.collection('usuarios').doc(newUser.user!.uid).set(userData);
+      Future.delayed(const Duration(seconds: 1), () async {
+        setState(() {
+          cargando = true;
+        });
+        await Future.delayed(const Duration(seconds: 4));
+        check.fire();
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const Home(),
-          ),
-        );
-      }
+        if (newUser.user != null) {
+          final userData = {
+            'nombre': _nombreTextController.text.trim().toLowerCase(),
+            'apellido': _apellidoTextController.text.trim().toLowerCase(),
+            'correo': _emailTextController.text.trim().toLowerCase(),
+            'contraseña': _contraTextController.text,
+            'uid': newUser.user!.uid,
+          };
+          await _db.collection('usuarios').doc(newUser.user!.uid).set(userData);
+          await Future.delayed(const Duration(seconds: 3));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Home(),
+            ),
+          );
+          setState(() {
+            cargando = false;
+          });
+        }
+      });
     } catch (e) {
       print(e);
       String errorMessage = '';
@@ -102,25 +139,26 @@ class RegistrarseState extends State<Registrarse> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: const Text(
-            "Registrarse",
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          ),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          "Registrarse",
+          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            hexStringToColor("#1575b3"),
-            hexStringToColor("#00ffef"),
-            hexStringToColor("#37d0d1")
-          ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
-          child: SingleChildScrollView(
+      ),
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+              hexStringToColor("#1575b3"),
+              hexStringToColor("#00ffef"),
+              hexStringToColor("#37d0d1")
+            ], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
             child: Padding(
               padding: EdgeInsets.fromLTRB(
                   20, MediaQuery.of(context).size.height * 0.2, 20, 0),
@@ -221,7 +259,24 @@ class RegistrarseState extends State<Registrarse> {
               ),
             ),
           ),
-        ));
+          cargando
+              ? PosicionValidacion(
+                  size: 300,
+                  child: Rive.RiveAnimation.asset(
+                    "assets/imagenes/riveValidator.riv",
+                    onInit: (artboard) {
+                      Rive.StateMachineController controller =
+                          getRiveValidator(artboard);
+                      check = controller.findSMI("Check") as Rive.SMITrigger;
+                      error = controller.findSMI("Error") as Rive.SMITrigger;
+                      reset = controller.findSMI("Reset") as Rive.SMITrigger;
+                    },
+                  ),
+                )
+              : const SizedBox(),
+        ],
+      ),
+    );
   }
 
   Row opcionIniciarSesion() {
@@ -246,6 +301,36 @@ class RegistrarseState extends State<Registrarse> {
         ),
         const SizedBox(width: 20),
       ],
+    );
+  }
+}
+
+class PosicionValidacion extends StatelessWidget {
+  const PosicionValidacion({
+    Key? key,
+    required this.child,
+    required this.size,
+  }) : super(key: key);
+
+  final Widget child;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: size,
+              width: size,
+              child: child,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

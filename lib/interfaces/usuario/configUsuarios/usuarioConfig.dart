@@ -117,10 +117,10 @@ class _UsuarioConfigState extends State<UsuarioConfig> {
             content: Text('Usuario actualizado correctamente'),
           ),
         );
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const Usuario(),
+            builder: (context) => UsuarioConfig(),
           ),
         );
       } else {

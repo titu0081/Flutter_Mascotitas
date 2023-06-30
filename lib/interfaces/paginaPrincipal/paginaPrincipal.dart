@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import '../../componentes/animationBarNav/navegacion.dart';
 import '../../componentes/animationBarNav/navegacionVistas.dart';
+import '../../utilidades/colores.dart';
 import '../buscar/buscarMascotas.dart';
 import '../chat/chatUsuarios.dart';
 import '../usuario/usuario.dart';
@@ -27,7 +28,22 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: pantallas[_indiceActual],
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              hexStringToColor("#1575b3"),
+              hexStringToColor("#00ffef"),
+              hexStringToColor("#37d0d1"),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: pantallas[_indiceActual],
+      ),
       bottomNavigationBar: NavegacionPrincipal(
         onNavSelect: (navIndex) {
           setState(() {

@@ -101,50 +101,53 @@ class _ChatUsuariosState extends State<ChatUsuarios> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text(
-          "CHATEA Y ADOPTA",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              hexStringToColor("#1575b3"),
-              hexStringToColor("#00ffef"),
-              hexStringToColor("#37d0d1"),
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        extendBody: true,
+        extendBodyBehindAppBar: true,
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                hexStringToColor("#1575b3"),
+                hexStringToColor("#00ffef"),
+                hexStringToColor("#37d0d1"),
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
-        ),
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).padding.bottom,
-              ),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                  20,
-                  MediaQuery.of(context).size.height * 0.15,
-                  20,
-                  0,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(
+              15,
+              MediaQuery.of(context).padding.top,
+              15,
+              MediaQuery.of(context).padding.bottom,
+            ),
+            child: Column(
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Text(
+                    "CHATEA Y ADOPTA",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                child: Column(
+                const SizedBox(height: 10),
+                Column(
                   children: <Widget>[
                     Column(
                       children: [
                         Container(
                           constraints: BoxConstraints(
-                            maxHeight: MediaQuery.of(context).size.height * 0.6,
+                            maxHeight: MediaQuery.of(context).size.height * 0.8,
                           ),
                           child: ListView.builder(
                             itemCount: chats.length,
@@ -177,9 +180,9 @@ class _ChatUsuariosState extends State<ChatUsuarios> {
                     ),
                   ],
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

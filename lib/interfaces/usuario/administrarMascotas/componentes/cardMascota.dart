@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:mascotitas/widgets_Reusables/widgetReusable.dart';
 
 class MascotasCard extends StatelessWidget {
   final String nombre;
@@ -36,8 +38,10 @@ class MascotasCard extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Image.network(
-                imagen,
+              CachedNetworkImage(
+                imageUrl: imagen,
+                placeholder: (context, url) => cargandoImagenes(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
                 width: double.infinity,
                 height: 150,
                 fit: BoxFit.cover,
